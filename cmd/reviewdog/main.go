@@ -301,13 +301,13 @@ github-pr-check reporter as a fallback.
 			return nil
 		}
 
-		gc, err := gitlabservice.NewGitLabMergeRequestDiscussionCommenter(cli, build.Owner, build.Repo, build.PullRequest, build.SHA)
+		gc, err := gitlabservice.NewGitLabMergeRequestDiscussionCommenter(cli, build.GitlabProjectID, build.PullRequest, build.SHA)
 		if err != nil {
 			return err
 		}
 
 		cs = reviewdog.MultiCommentService(gc, cs)
-		ds, err = gitlabservice.NewGitLabMergeRequestDiff(cli, build.Owner, build.Repo, build.PullRequest, build.SHA)
+		ds, err = gitlabservice.NewGitLabMergeRequestDiff(cli, build.GitlabProjectID, build.PullRequest, build.SHA)
 		if err != nil {
 			return err
 		}
@@ -321,13 +321,13 @@ github-pr-check reporter as a fallback.
 			return nil
 		}
 
-		gc, err := gitlabservice.NewGitLabMergeRequestCommitCommenter(cli, build.Owner, build.Repo, build.PullRequest, build.SHA)
+		gc, err := gitlabservice.NewGitLabMergeRequestCommitCommenter(cli, build.GitlabProjectID, build.PullRequest, build.SHA)
 		if err != nil {
 			return err
 		}
 
 		cs = reviewdog.MultiCommentService(gc, cs)
-		ds, err = gitlabservice.NewGitLabMergeRequestDiff(cli, build.Owner, build.Repo, build.PullRequest, build.SHA)
+		ds, err = gitlabservice.NewGitLabMergeRequestDiff(cli, build.GitlabProjectID, build.PullRequest, build.SHA)
 		if err != nil {
 			return err
 		}
@@ -571,7 +571,7 @@ func gitlabBuildWithClient() (*cienv.BuildInfo, *gitlab.Client, error) {
 	}
 
 	if g.PullRequest == 0 {
-		prNr, err := fetchMergeRequestIDFromCommit(client, g.Owner+"/"+g.Repo, g.SHA)
+		prNr, err := fetchMergeRequestIDFromCommit(client, g.GitlabProjectID, g.SHA)
 		if err != nil {
 			return nil, nil, err
 		}

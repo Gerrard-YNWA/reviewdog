@@ -40,7 +40,7 @@ type MergeRequestCommitCommenter struct {
 
 // NewGitLabMergeRequestCommitCommenter returns a new MergeRequestCommitCommenter service.
 // MergeRequestCommitCommenter service needs git command in $PATH.
-func NewGitLabMergeRequestCommitCommenter(cli *gitlab.Client, owner, repo string, pr int, sha string) (*MergeRequestCommitCommenter, error) {
+func NewGitLabMergeRequestCommitCommenter(cli *gitlab.Client, projectID string, pr int, sha string) (*MergeRequestCommitCommenter, error) {
 	workDir, err := serviceutil.GitRelWorkdir()
 	if err != nil {
 		return nil, fmt.Errorf("MergeRequestCommitCommenter needs 'git' command: %w", err)
@@ -49,7 +49,7 @@ func NewGitLabMergeRequestCommitCommenter(cli *gitlab.Client, owner, repo string
 		cli:      cli,
 		pr:       pr,
 		sha:      sha,
-		projects: owner + "/" + repo,
+		projects: projectID,
 		wd:       workDir,
 	}, nil
 }

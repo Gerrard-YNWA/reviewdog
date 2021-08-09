@@ -24,6 +24,9 @@ type BuildInfo struct {
 	// Gerrit related params
 	GerritChangeID   string
 	GerritRevisionID string
+
+	// Gitlab projectID
+	GitlabProjectID string
 }
 
 // GetBuildInfo returns BuildInfo from environment variables.
@@ -91,14 +94,19 @@ func GetBuildInfo() (prInfo *BuildInfo, isPR bool, err error) {
 		"BITBUCKET_BRANCH",
 	})
 
+	projectId := getOneEnvValue([]string{
+		"CI_PROJECT_ID",
+	})
+
 	pr := getPullRequestNum()
 
 	return &BuildInfo{
-		Owner:       owner,
-		Repo:        repo,
-		PullRequest: pr,
-		SHA:         sha,
-		Branch:      branch,
+		Owner:           owner,
+		Repo:            repo,
+		PullRequest:     pr,
+		SHA:             sha,
+		Branch:          branch,
+		GitlabProjectID: projectId,
 	}, pr != 0, nil
 }
 

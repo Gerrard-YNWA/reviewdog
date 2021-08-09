@@ -42,7 +42,7 @@ type MergeRequestDiscussionCommenter struct {
 
 // NewGitLabMergeRequestDiscussionCommenter returns a new MergeRequestDiscussionCommenter service.
 // MergeRequestDiscussionCommenter service needs git command in $PATH.
-func NewGitLabMergeRequestDiscussionCommenter(cli *gitlab.Client, owner, repo string, pr int, sha string) (*MergeRequestDiscussionCommenter, error) {
+func NewGitLabMergeRequestDiscussionCommenter(cli *gitlab.Client, projectID string, pr int, sha string) (*MergeRequestDiscussionCommenter, error) {
 	workDir, err := serviceutil.GitRelWorkdir()
 	if err != nil {
 		return nil, fmt.Errorf("MergeRequestDiscussionCommenter needs 'git' command: %w", err)
@@ -51,7 +51,7 @@ func NewGitLabMergeRequestDiscussionCommenter(cli *gitlab.Client, owner, repo st
 		cli:      cli,
 		pr:       pr,
 		sha:      sha,
-		projects: owner + "/" + repo,
+		projects: projectID,
 		wd:       workDir,
 	}, nil
 }

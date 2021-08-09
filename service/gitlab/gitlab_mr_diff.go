@@ -27,7 +27,7 @@ type MergeRequestDiff struct {
 
 // NewGitLabMergeRequestDiff returns a new MergeRequestDiff service.
 // itLabMergeRequestDiff service needs git command in $PATH.
-func NewGitLabMergeRequestDiff(cli *gitlab.Client, owner, repo string, pr int, sha string) (*MergeRequestDiff, error) {
+func NewGitLabMergeRequestDiff(cli *gitlab.Client, projectID string, pr int, sha string) (*MergeRequestDiff, error) {
 	workDir, err := serviceutil.GitRelWorkdir()
 	if err != nil {
 		return nil, fmt.Errorf("MergeRequestCommitCommenter needs 'git' command: %w", err)
@@ -36,7 +36,7 @@ func NewGitLabMergeRequestDiff(cli *gitlab.Client, owner, repo string, pr int, s
 		cli:      cli,
 		pr:       pr,
 		sha:      sha,
-		projects: owner + "/" + repo,
+		projects: projectID,
 		wd:       workDir,
 	}, nil
 }
